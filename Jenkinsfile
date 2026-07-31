@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     stages {
+
+        /*
         stage('Build') {
             agent {
                 docker{
@@ -20,6 +22,8 @@ pipeline {
                 '''
             }
         }
+        */
+
         stage('Test') {
             agent {
                 docker{
@@ -46,6 +50,7 @@ pipeline {
                 sh '''
                     npm install serve
                     serve -s build
+                    sleep 10
                     npx playwright test
                 '''
             }
@@ -54,7 +59,7 @@ pipeline {
 
     post {
         always{
-            junit 'test-results/junit.xml'
+            junit 'jest-results/junit.xml'
         }
     }
 }
