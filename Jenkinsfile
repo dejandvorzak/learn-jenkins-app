@@ -9,20 +9,21 @@ pipeline {
 
     stages {
 
-/*
+
         stage('AWS'){
             agent{
                 docker{
-                    image 'amazon/aws-cli'
+                    image 'amazon/aws-cli:2.36.17'
+                    args "--entrypoint=''"
                 }
             }
             steps{
                 sh'''
-                    aws --version
+                    aws --version 
                 '''
             }
         }
-*/
+
         stage('Build') {
             agent {
                 docker {
