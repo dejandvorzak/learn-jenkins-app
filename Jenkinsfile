@@ -123,7 +123,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'YOUR NETLIFY URL'
+                CI_ENVIRONMENT_URL = 'https://animated-crisp-9d07db.netlify.app/'
             }
 
             steps {
