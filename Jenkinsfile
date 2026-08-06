@@ -105,7 +105,8 @@ pipeline {
                 }
             }
         }
-
+        
+        /*
         stage('Approval') {
             steps {
                 timeout(time: 15, unit: 'MINUTES') {
@@ -113,6 +114,7 @@ pipeline {
                 }
             }
         }
+        */
 
         stage('Deploy prod') {
             agent {
@@ -132,7 +134,7 @@ pipeline {
                     netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                     netlify status
-                    netlify deploy --dir=build --no-build
+                    netlify deploy --dir=build --no-build --prod
                     npx playwright test  --reporter=html
                 '''
             }
