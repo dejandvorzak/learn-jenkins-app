@@ -9,6 +9,11 @@ pipeline {
 
     stages {
 
+         stage('Build Docker Image') {
+            steps{
+                sh 'docker build -t my-playwright .'
+            }
+         }
 
         stage('AWS'){
             agent{
