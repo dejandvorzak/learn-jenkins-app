@@ -19,7 +19,7 @@ pipeline {
                 docker{
                     image 'amazon/aws-cli:2.36.17'
                     reuseNode true
-                    args "--entrypoint=''"
+                    args "-u root --entrypoint=''"
                 }
             }
 
@@ -31,8 +31,10 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh'''
                         aws --version 
-                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
-                        aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod-Dejan  --service LearnJenkinsApp-Service-Prod-Dejan  --task-definition LearnJenkinsApp-TaskDefinition-Prod-Dejan:2
+                        yum install jq -y
+                        LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq '.taskDefinition.revision')
+                        echo $LATEST_TD_REVISION
+                        aws ecs update-service --cluster LearnJenkinsApp-Cluster-Prod-Dejan  --service LearnJenkinsApp-Service-Prod-Dejan  --task-definition LearnJenkinsApp-TaskDefinition-Prod-Dejan:$LATEST_TD_REVISION
                     '''
                 }
             }
